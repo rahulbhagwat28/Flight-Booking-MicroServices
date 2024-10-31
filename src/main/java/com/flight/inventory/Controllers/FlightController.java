@@ -24,6 +24,8 @@ public class FlightController {
     @Autowired
     FlightService flightService;
 
+    //Retrieve all flights
+
     @GetMapping("/flights")
     public ResponseEntity<List<Flights>> getFlights()
     {
