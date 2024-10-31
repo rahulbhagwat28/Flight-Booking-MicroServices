@@ -2,15 +2,14 @@ package com.flight.inventory.Controllers;
 
 
 import com.flight.inventory.Models.Flights;
+import com.flight.inventory.RequestBody.FlightRequest;
 import com.flight.inventory.Service.FlightService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -41,6 +40,21 @@ public class FlightController {
 
                 return ResponseEntity.ok(flights);
             }
+
+
+    }
+
+    //Adding flight
+    @PostMapping("/addFlight")
+    public ResponseEntity<String> addFlight(@RequestBody FlightRequest flightrequest)
+    {
+
+        logger.info("Calling flightservice for adding flight");
+
+
+        flightService.addFlight(flightrequest);
+
+        return ResponseEntity.ok("Flight added successfully");
 
 
     }

@@ -18,6 +18,8 @@ public class FlightRowMapper implements RowMapper {
         flights.setFlight_name(rs.getString("flight_name"));
         flights.setOrigin(rs.getString("origin"));
         flights.setDestination(rs.getString("destination"));
+        flights.setDepartureTime(rs.getTimestamp("departureTime").toLocalDateTime());
+        flights.setArrivalTime(rs.getTimestamp("arrivalTime").toLocalDateTime());
         flights.setStatus(FlightStatus.valueOf(rs.getString("status")));
         flights.setSeat_capacity(rs.getInt("seat_capacity"));
         flights.setTicket_price(rs.getDouble("ticket_price"));
