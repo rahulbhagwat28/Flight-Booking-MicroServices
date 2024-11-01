@@ -1,6 +1,7 @@
 package com.flight.inventory.Service;
 
 import com.flight.inventory.Controllers.FlightController;
+import com.flight.inventory.Enums.FlightStatus;
 import com.flight.inventory.Exception.ValidationException;
 import com.flight.inventory.Mappers.FlightRowMapper;
 import com.flight.inventory.Models.Flights;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -26,6 +28,7 @@ public class FlightServiceImpl implements FlightService{
 
     @Override
     public List<Flights> getAllFlights() {
+
 
         return flightRepository.getAllFlights();
 
@@ -64,6 +67,38 @@ public class FlightServiceImpl implements FlightService{
         flightRepository.addFlight(flights);
 
 
+
+    }
+
+
+    @Override
+    public void updateFlightStatus()  {
+
+        List<Flights> flights = flightRepository.getAllFlights();
+
+        for(Flights flight:flights)
+        {
+            LocalDateTime now=LocalDateTime.now();
+
+            if(flight.getDepartureTime().isAfter(now)) {
+                if (flight.getDepartureTime().minusMinutes(30).isBefore(now)) {
+                    flight.setStatus(FlightStatus.BOARDING);
+                } else {
+                    flight.setStatus(FlightStatus.SCHEDULED);
+                }
+            }
+            else if(flight.getDepartureTime().isBefore(now) && flight.getArrivalTime().isAfter(now))
+            {
+                flight.setStatus(FlightStatus.INFLIGHT);
+            }
+            else if(flight.getArrivalTime().isBefore(now))
+            {
+                flight.setStatus(FlightStatus.LANDED);
+            }
+
+            flightRepository.updateFlightStatus(flight.getId(),flight.getStatus());
+
+        }
 
     }
 

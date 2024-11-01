@@ -10,4 +10,6 @@ public interface FlightService {
     public List<Flights> getAllFlights();
 
     void addFlight(FlightRequest flights);
+
+    public void updateFlightStatus();
 }

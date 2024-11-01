@@ -1,6 +1,7 @@
 package com.flight.inventory.Repository;
 
 
+import com.flight.inventory.Enums.FlightStatus;
 import com.flight.inventory.Mappers.FlightRowMapper;
 import com.flight.inventory.Models.Flights;
 import com.flight.inventory.RequestBody.FlightRequest;
@@ -15,6 +16,8 @@ public interface FlightRepository {
      List<Flights> getAllFlights();
 
      void addFlight(FlightRequest flights);
+
+     void updateFlightStatus(Long flightId, FlightStatus status);
 
 
 

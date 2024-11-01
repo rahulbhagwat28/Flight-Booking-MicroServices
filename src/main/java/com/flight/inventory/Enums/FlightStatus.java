@@ -2,7 +2,7 @@ package com.flight.inventory.Enums;
 
 public enum FlightStatus {
 
-    ONTIME,
+    SCHEDULED,
     DELAYED,
     CANCELLED,
     BOARDING,

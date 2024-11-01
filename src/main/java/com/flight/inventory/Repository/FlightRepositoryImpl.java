@@ -1,8 +1,11 @@
 package com.flight.inventory.Repository;
 
-import com.flight.inventory.Controllers.FlightController;
+
+
+import com.flight.inventory.Enums.FlightStatus;
 import com.flight.inventory.Mappers.FlightRowMapper;
 import com.flight.inventory.Models.Flights;
+
 import com.flight.inventory.RequestBody.FlightRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -34,7 +36,8 @@ public class FlightRepositoryImpl implements FlightRepository{
     private String insertQuery= "INSERT INTO flights (flight_number,flight_name,origin" +
             ",destination,departureTime,arrivalTime,status,seat_capacity,ticket_price)"+
             "VALUES (?,?,?,?,?,?,?,?,?)";
-    
+    private String updateQuery="UPDATE flights SET status = ? WHERE id=?";
+
     private static final Logger logger= LoggerFactory.getLogger(FlightRepositoryImpl.class);
 
     @Override
@@ -73,6 +76,14 @@ public class FlightRepositoryImpl implements FlightRepository{
                 flightEntity.getSeat_capacity(),
                 flightEntity.getTicket_price());
 
+
+    }
+
+    @Override
+    public void updateFlightStatus(Long flightId, FlightStatus status) {
+
+        logger.info("Updating flight status for id {}",flightId);
+        jdbcTemplate.update(updateQuery,status.name(),flightId);
 
     }
 }
